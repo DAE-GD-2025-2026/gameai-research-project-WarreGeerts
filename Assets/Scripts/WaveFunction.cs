@@ -6,21 +6,59 @@ using UnityEngine;
 
 public class WaveFunction : MonoBehaviour
 {
-    [SerializeField] private int dimensions;
+    [Header("default options")] [SerializeField]
+    private int dimensions;
+
     [SerializeField] private Tile[] tileObjects;
-    [SerializeField] private List<Cell> gridComponents;
     [SerializeField] private Cell cellObj;
+
+    [Header(" ")] [SerializeField] private float generationSpeed = 0.01f;
+    [SerializeField] private bool debugState = true;
+
+    public float GenerationSpeed
+    {
+        get => generationSpeed;
+        set => generationSpeed = value;
+    }
+
+    public bool DebugState
+    {
+        get => debugState;
+        set => debugState = value;
+    }
+
+    private List<Cell> _gridComponents;
+    private Cell _failedCell;
+    private Cell _currentCell;
+
 
     private int _iterations = 0;
 
     private void Awake()
     {
-        gridComponents = new List<Cell>();
+        _gridComponents = new List<Cell>();
         InitializeGrid();
     }
 
     private void InitializeGrid()
     {
+        //reset previous generation
+        _failedCell = null;
+        _currentCell = null;
+        _iterations = 0;
+        
+        if (_gridComponents.Count > 0)
+            _gridComponents.Clear();
+
+        if (gameObject.transform.childCount > 0)
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                Destroy(gameObject.transform.GetChild(i).gameObject);
+            }
+        }
+
+        //start new generation
         for (int y = 0; y < dimensions; y++)
         {
             for (int x = 0; x < dimensions; x++)
@@ -28,7 +66,7 @@ public class WaveFunction : MonoBehaviour
                 Cell newCell = Instantiate(cellObj, new Vector3(x * 2, 0, y * 2), Quaternion.identity);
                 newCell.transform.parent = gameObject.transform;
                 newCell.CreateCell(false, tileObjects);
-                gridComponents.Add(newCell);
+                _gridComponents.Add(newCell);
             }
         }
 
@@ -37,31 +75,17 @@ public class WaveFunction : MonoBehaviour
 
     IEnumerator CheckEntropy()
     {
-        List<Cell> tempGrid = new List<Cell>(gridComponents);
+        List<Cell> tempGrid = _gridComponents.Where(c => !c.Collapsed).ToList();
 
-        tempGrid.RemoveAll(c => c.Collapsed);
+        if (tempGrid.Count == 0)
+            yield break;
+                
+        tempGrid.Sort((a, b) => a.TileOptions.Length.CompareTo(b.TileOptions.Length));
 
-        tempGrid.Sort((a, b) => { return a.TileOptions.Length - b.TileOptions.Length; });
+        int minEntropy = tempGrid[0].TileOptions.Length;
+        tempGrid = tempGrid.Where(c => c.TileOptions.Length == minEntropy).ToList();
 
-        int arrLength = tempGrid[0].TileOptions.Length;
-        int stopIndex = default;
-
-        for (int i = 1; i < tempGrid.Count; i++)
-        {
-            if (tempGrid[i].TileOptions.Length > arrLength)
-            {
-                stopIndex = i;
-                break;
-            }
-        }
-
-        if (stopIndex > 0)
-        {
-            tempGrid.RemoveRange(stopIndex, tempGrid.Count - stopIndex);
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
+        yield return new WaitForSeconds(generationSpeed);
         CollapseCell(tempGrid);
     }
 
@@ -71,6 +95,16 @@ public class WaveFunction : MonoBehaviour
 
         Cell cellToCollapse = tempGrid[randIndex];
 
+        if (cellToCollapse.TileOptions.Length == 0)
+        {
+            _failedCell = cellToCollapse;
+            Debug.LogError($"Contradiction at {cellToCollapse.name}!");
+            InitializeGrid();
+            return;
+        }
+
+        _currentCell = cellToCollapse;
+
         cellToCollapse.Collapsed = true;
         Tile selectedTile = cellToCollapse.TileOptions[UnityEngine.Random.Range(0, cellToCollapse.TileOptions.Length)];
         cellToCollapse.TileOptions = new Tile[] { selectedTile };
@@ -78,23 +112,22 @@ public class WaveFunction : MonoBehaviour
         Tile foundTile = cellToCollapse.TileOptions[0];
         var tile = Instantiate(foundTile, cellToCollapse.transform.position, foundTile.gameObject.transform.rotation);
         tile.transform.parent = gameObject.transform;
-        
+
         UpdateGeneration();
     }
 
     private void UpdateGeneration()
     {
-        List<Cell> newGenerationCell = new List<Cell>(gridComponents);
+        List<Cell> newGenerationCell = new List<Cell>(_gridComponents);
 
         for (int y = 0; y < dimensions; y++)
         {
             for (int x = 0; x < dimensions; x++)
             {
                 var index = x + y * dimensions;
-                if (gridComponents[index].Collapsed)
+                if (_gridComponents[index].Collapsed)
                 {
-                    Debug.Log("Called");
-                    newGenerationCell[index] = gridComponents[index];
+                    newGenerationCell[index] = _gridComponents[index];
                 }
                 else
                 {
@@ -106,7 +139,7 @@ public class WaveFunction : MonoBehaviour
 
                     if (y > 0)
                     {
-                        Cell up = gridComponents[x + (y - 1) * dimensions];
+                        Cell up = _gridComponents[x + (y - 1) * dimensions];
                         List<Tile> validOptions = new List<Tile>();
 
                         foreach (var possibleOptions in up.TileOptions)
@@ -122,7 +155,7 @@ public class WaveFunction : MonoBehaviour
 
                     if (x < dimensions - 1)
                     {
-                        Cell right = gridComponents[x + 1 + y * dimensions];
+                        Cell right = _gridComponents[x + 1 + y * dimensions];
                         List<Tile> validOptions = new List<Tile>();
 
                         foreach (var possibleOptions in right.TileOptions)
@@ -138,7 +171,7 @@ public class WaveFunction : MonoBehaviour
 
                     if (y < dimensions - 1)
                     {
-                        Cell down = gridComponents[x + (y + 1) * dimensions];
+                        Cell down = _gridComponents[x + (y + 1) * dimensions];
                         List<Tile> validOptions = new List<Tile>();
 
                         foreach (var possibleOptions in down.TileOptions)
@@ -154,7 +187,7 @@ public class WaveFunction : MonoBehaviour
 
                     if (x > 0)
                     {
-                        Cell left = gridComponents[x - 1 + y * dimensions];
+                        Cell left = _gridComponents[x - 1 + y * dimensions];
                         List<Tile> validOptions = new List<Tile>();
 
                         foreach (var possibleOptions in left.TileOptions)
@@ -180,12 +213,41 @@ public class WaveFunction : MonoBehaviour
             }
         }
 
-        gridComponents = newGenerationCell;
+        _gridComponents = newGenerationCell;
         _iterations++;
 
         if (_iterations < dimensions * dimensions)
         {
             StartCoroutine(CheckEntropy());
+        }
+        else
+        {
+            Debug.Log("Finished");
+            _currentCell = null;
+            
+            GameObject container = GameObject.Find("FinishedMap");
+            if (container == null)
+            {
+                container = new GameObject("FinishedMap");
+            }
+            
+            List<Transform> children = new List<Transform>();
+            foreach (Transform child in transform)
+            {
+                children.Add(child);
+            }
+
+            foreach (Transform child in children)
+            {
+                if (!child.name.Contains("Cell"))
+                {
+                    child.SetParent(container.transform);
+                }
+                else 
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
     }
 
@@ -198,6 +260,37 @@ public class WaveFunction : MonoBehaviour
             {
                 optionList.RemoveAt(x);
             }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!debugState) return;
+        if (_failedCell != null)
+        {
+            // Set the color to bright red
+            Gizmos.color = Color.red;
+
+            // Draw a wire cube at the cell's position
+            // Assuming your cells are roughly 2x2 based on your Instantiate logic
+            Gizmos.DrawWireCube(_failedCell.transform.position, new Vector3(2f, 2f, 2f));
+
+            // Optional: Draw a solid transparent cube to make it pop
+            Gizmos.color = new Color(1, 0, 0, 0.3f);
+            Gizmos.DrawCube(_failedCell.transform.position, new Vector3(2f, 2f, 2f));
+        }
+        else if (_currentCell != null)
+        {
+            // Set the color to bright red
+            Gizmos.color = Color.purple;
+
+            // Draw a wire cube at the cell's position
+            // Assuming your cells are roughly 2x2 based on your Instantiate logic
+            Gizmos.DrawWireCube(_currentCell.transform.position, new Vector3(2.1f, 2.1f, 2.1f));
+
+            // Optional: Draw a solid transparent cube to make it pop
+            Gizmos.color = new Color(1, 0, 1, 0.3f);
+            Gizmos.DrawCube(_currentCell.transform.position, new Vector3(2.1f, 2.1f, 2.1f));
         }
     }
 }

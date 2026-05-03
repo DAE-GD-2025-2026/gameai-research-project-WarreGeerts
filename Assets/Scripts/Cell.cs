@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-   [SerializeField] private bool _collapsed = false;
-   [SerializeField] private Tile[] _tileOptions;
+   private bool _collapsed = false;
+   private Tile[] _tileOptions;
    
    public bool Collapsed
    {

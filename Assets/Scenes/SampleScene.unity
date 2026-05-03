@@ -159,8 +159,9 @@ MonoBehaviour:
   - {fileID: 7402255202188766449, guid: 250a9da5ce9584a468fb6f8f484b2eef, type: 3}
   - {fileID: 6802646204097549463, guid: c112993f0c1ef0d48bbee67d8085c29f, type: 3}
   - {fileID: 6802646204097549463, guid: c4179d146bc29c54382fb3d00286af42, type: 3}
-  gridComponents: []
   cellObj: {fileID: 7936301914633942976, guid: df56672e86922384dbf7a58fc0825394, type: 3}
+  generationSpeed: 0.01
+  debugState: 1
 --- !u!4 &202334082
 Transform:
   m_ObjectHideFlags: 0
@@ -209,7 +210,7 @@ MonoBehaviour:
   rows: 20
   cellSize: {x: 2, y: 2, z: 2}
   startPosition: {x: 0, y: 0, z: 0}
-  drawGizmos: 1
+  drawGizmos: 0
   color: {r: 1, g: 1, b: 1, a: 0.15686275}
 --- !u!4 &237265981
 Transform:
@@ -539,6 +540,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1125634675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1125634676}
+  m_Layer: 0
+  m_Name: FinishedMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1125634676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125634675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.61077, y: -0, z: 23.97594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -548,3 +580,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 237265981}
   - {fileID: 202334082}
+  - {fileID: 1125634676}
