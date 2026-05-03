@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalRotation.x
@@ -30,11 +30,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -42,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f128325e65e59554ebabd72f7bf3ca2b, type: 2}
     - target: {fileID: 919132149155446097, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       propertyPath: m_Name
-      value: Tile_Road_Solo_Corner
+      value: Road_Down_Left
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -62,14 +62,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6936904329643315399}
+      addedObject: {fileID: 6802646204097549463}
   m_SourcePrefab: {fileID: 100100000, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
 --- !u!1 &2667815946587943012 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64ac115e5574fea44b039f51e7422c61, type: 3}
   m_PrefabInstance: {fileID: 3009694991631125813}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6936904329643315399
+--- !u!114 &6802646204097549463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,10 +78,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 2667815946587943012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5212914a8e88da94f95780b39e9f3b8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 368cf33b0a160574bba9911ed85a25a9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TileIds
-  north: 1
-  east: 2
-  south: 2
-  west: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Tile
+  upNeighbors:
+  - {fileID: 6802646204097549463, guid: c112993f0c1ef0d48bbee67d8085c29f, type: 3}
+  - {fileID: 6802646204097549463, guid: c4179d146bc29c54382fb3d00286af42, type: 3}
+  - {fileID: -2734880126824833138, guid: 47a62c03c17fba24b9d1fece73a4a979, type: 3}
+  - {fileID: 7402255202188766449, guid: 250a9da5ce9584a468fb6f8f484b2eef, type: 3}
+  - {fileID: -1252130980904098924, guid: 8f4954991f9774048b7fd8dba0bf4fea, type: 3}
+  rightNeighbors:
+  - {fileID: -6300338009135543606, guid: d6ade6ea2af6c1d4f9dfd641387a0a7d, type: 3}
+  - {fileID: 6802646204097549463, guid: 7232c4f792511f747962a90f9ccec349, type: 3}
+  - {fileID: 6802646204097549463, guid: c4179d146bc29c54382fb3d00286af42, type: 3}
+  - {fileID: 7402255202188766449, guid: 250a9da5ce9584a468fb6f8f484b2eef, type: 3}
+  - {fileID: -2734880126824833138, guid: 47a62c03c17fba24b9d1fece73a4a979, type: 3}
+  downNeighbors:
+  - {fileID: -6300338009135543606, guid: d6ade6ea2af6c1d4f9dfd641387a0a7d, type: 3}
+  - {fileID: 6802646204097549463, guid: c112993f0c1ef0d48bbee67d8085c29f, type: 3}
+  - {fileID: 6802646204097549463, guid: c4179d146bc29c54382fb3d00286af42, type: 3}
+  - {fileID: -2734880126824833138, guid: 47a62c03c17fba24b9d1fece73a4a979, type: 3}
+  - {fileID: -1252130980904098924, guid: 8f4954991f9774048b7fd8dba0bf4fea, type: 3}
+  - {fileID: 7402255202188766449, guid: 419f617bace5eed4b95e4110d10d7085, type: 3}
+  leftNeighbors:
+  - {fileID: 6802646204097549463, guid: 7232c4f792511f747962a90f9ccec349, type: 3}
+  - {fileID: 6802646204097549463, guid: c4179d146bc29c54382fb3d00286af42, type: 3}
+  - {fileID: 7402255202188766449, guid: 419f617bace5eed4b95e4110d10d7085, type: 3}
+  - {fileID: -1252130980904098924, guid: 8f4954991f9774048b7fd8dba0bf4fea, type: 3}

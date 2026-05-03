@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &202334080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202334082}
+  - component: {fileID: 202334081}
+  m_Layer: 0
+  m_Name: Map Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &202334081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202334080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe11474e29c32ab4f8531f355ecf6283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveFunction
+  dimensions: 20
+  tileObjects:
+  - {fileID: -6300338009135543606, guid: d6ade6ea2af6c1d4f9dfd641387a0a7d, type: 3}
+  - {fileID: -1252130980904098924, guid: 8f4954991f9774048b7fd8dba0bf4fea, type: 3}
+  - {fileID: 6802646204097549463, guid: 342c365e5a3aa494088f8ccf9ab1e64a, type: 3}
+  - {fileID: 6802646204097549463, guid: 7232c4f792511f747962a90f9ccec349, type: 3}
+  - {fileID: -2734880126824833138, guid: 47a62c03c17fba24b9d1fece73a4a979, type: 3}
+  - {fileID: 7402255202188766449, guid: 419f617bace5eed4b95e4110d10d7085, type: 3}
+  - {fileID: 7402255202188766449, guid: 250a9da5ce9584a468fb6f8f484b2eef, type: 3}
+  - {fileID: 6802646204097549463, guid: c112993f0c1ef0d48bbee67d8085c29f, type: 3}
+  - {fileID: 6802646204097549463, guid: c4179d146bc29c54382fb3d00286af42, type: 3}
+  gridComponents: []
+  cellObj: {fileID: 7936301914633942976, guid: df56672e86922384dbf7a58fc0825394, type: 3}
+--- !u!4 &202334082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202334080}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.85666, y: -0, z: 1.75776}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &237265979
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +186,6 @@ GameObject:
   m_Component:
   - component: {fileID: 237265981}
   - component: {fileID: 237265980}
-  - component: {fileID: 237265982}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -149,10 +205,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d9a4385ec40404a899b8db6b6b878c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridVisualizer
-  columns: 15
-  rows: 15
+  columns: 20
+  rows: 20
   cellSize: {x: 2, y: 2, z: 2}
-  startPosition: {x: -15, y: 0, z: 10}
+  startPosition: {x: 0, y: 0, z: 0}
   drawGizmos: 1
   color: {r: 1, g: 1, b: 1, a: 0.15686275}
 --- !u!4 &237265981
@@ -170,18 +226,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &237265982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 237265979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd8932bce5e41ec48924926736f075cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveFunctionCollapse
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +313,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 24.38, z: 0}
+  m_LocalPosition: {x: 18.29, y: 24.38, z: -10.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -503,3 +547,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 237265981}
+  - {fileID: 202334082}
