@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ae3c51ee575edfd4e976d7baebee8392
+guid: cdfa31be032cf3b4686913136b100ce1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +21,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,95 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WangTiles_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 300
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8d7452f2a78386e47af1c2c82d934e7f
-      internalID: -1534444981
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WangTiles_1
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 300
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: caecb7044f1a3bc4481a2fb94485b25d
-      internalID: -207846024
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WangTiles_2
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 300
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f50b989085a48c34aae5b15330a094f1
-      internalID: 2044968418
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WangTiles_3
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 300
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 41c53a526f1eb5c4ba2e65bbc2305dd3
-      internalID: -1086121791
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WangTiles_4
+      name: RoadTiles_0
       rect:
         serializedVersion: 2
         x: 0
@@ -200,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69ef8bd5fcf4044479b5cfb21d286c91
-      internalID: 451718739
+      spriteID: 2ccde005a01398e4e81ca1e399492edd
+      internalID: -664954849
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_5
+      name: RoadTiles_1
       rect:
         serializedVersion: 2
         x: 100
@@ -222,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4788e0f6bc54eef40985afc9f3c0c23e
-      internalID: -225600408
+      spriteID: b5be429544027c84096f1ce0328ed772
+      internalID: -758806304
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_6
+      name: RoadTiles_2
       rect:
         serializedVersion: 2
         x: 200
@@ -244,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa14d863cd2dec34eb94964926a731a9
-      internalID: 369983435
+      spriteID: 12488e34b1985974d85b304bebe44644
+      internalID: -749292119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_7
+      name: RoadTiles_3
       rect:
         serializedVersion: 2
         x: 300
@@ -266,14 +178,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c68d4c592ea617c46a1a884a57c76155
-      internalID: -592220331
+      spriteID: bef1376dcae15b14ebfeb8e37718e7d2
+      internalID: 1372239346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_8
+      name: RoadTiles_4
       rect:
         serializedVersion: 2
         x: 0
@@ -288,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57059b12c838634448e85e2948a04eb8
-      internalID: 1990001725
+      spriteID: 3cca5625256cfa541852cb5e697e2ac8
+      internalID: -900212634
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_9
+      name: RoadTiles_5
       rect:
         serializedVersion: 2
         x: 100
@@ -310,14 +222,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0bfc11d82ccc5704685aa292c2ad0ca8
-      internalID: -1658025552
+      spriteID: 5147d2c340a5d1c4f887707967ddd1db
+      internalID: 1872862064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_10
+      name: RoadTiles_6
       rect:
         serializedVersion: 2
         x: 200
@@ -332,14 +244,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75f2e2b1d7847f248b94e8ce44fdba23
-      internalID: 1316174250
+      spriteID: 1dd17095a8638e644820b6193f592ca5
+      internalID: -850011248
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_11
+      name: RoadTiles_7
       rect:
         serializedVersion: 2
         x: 300
@@ -354,14 +266,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a931df1bafd2380459623c3e689369e4
-      internalID: -1620276481
+      spriteID: 54c9da549feb7a440af974567bcb8110
+      internalID: -1412914065
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_12
+      name: RoadTiles_8
       rect:
         serializedVersion: 2
         x: 0
@@ -376,14 +288,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 460cb252ecd048a42b3ab871903fe995
-      internalID: -1805870039
+      spriteID: 02021f862b7d9c0448b5f356e6d51272
+      internalID: 1970039288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_13
+      name: RoadTiles_9
       rect:
         serializedVersion: 2
         x: 100
@@ -398,14 +310,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 485a7231e9a11214688efac6ba792c54
-      internalID: 439158271
+      spriteID: de6b8a13899ae474387fb5ea8f237595
+      internalID: -692908098
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_14
+      name: RoadTiles_10
       rect:
         serializedVersion: 2
         x: 200
@@ -420,14 +332,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2cac088a5663a1439ccb4ff9431fc12
-      internalID: 1844123914
+      spriteID: b7794d2aa66c70d4c9a33d0285c7d588
+      internalID: 220042417
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WangTiles_15
+      name: RoadTiles_11
       rect:
         serializedVersion: 2
         x: 300
@@ -442,8 +354,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75a356b74af826945842b808660859d2
-      internalID: -555141592
+      spriteID: d7bc005bf2b97924eb4f88ea4e05d266
+      internalID: -1755049692
       vertices: []
       indices: 
       edges: []
@@ -452,7 +364,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: ce3e0da4e260cf5409b85c5206db3fdd
     internalID: 0
     vertices: []
     indices: 
@@ -462,24 +374,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":4.0},"gridSpriteSize":{"x":100.0,"y":100.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":3.0},"gridSpriteSize":{"x":100.0,"y":100.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      WangTiles_0: -1534444981
-      WangTiles_1: -207846024
-      WangTiles_10: 1316174250
-      WangTiles_11: -1620276481
-      WangTiles_12: -1805870039
-      WangTiles_13: 439158271
-      WangTiles_14: 1844123914
-      WangTiles_15: -555141592
-      WangTiles_2: 2044968418
-      WangTiles_3: -1086121791
-      WangTiles_4: 451718739
-      WangTiles_5: -225600408
-      WangTiles_6: 369983435
-      WangTiles_7: -592220331
-      WangTiles_8: 1990001725
-      WangTiles_9: -1658025552
+      RoadTiles_0: -664954849
+      RoadTiles_1: -758806304
+      RoadTiles_10: 220042417
+      RoadTiles_11: -1755049692
+      RoadTiles_2: -749292119
+      RoadTiles_3: 1372239346
+      RoadTiles_4: -900212634
+      RoadTiles_5: 1872862064
+      RoadTiles_6: -850011248
+      RoadTiles_7: -1412914065
+      RoadTiles_8: 1970039288
+      RoadTiles_9: -692908098
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
