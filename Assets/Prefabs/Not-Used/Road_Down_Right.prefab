@@ -104,3 +104,7 @@ MonoBehaviour:
   - {fileID: 6802646204097549463, guid: 342c365e5a3aa494088f8ccf9ab1e64a, type: 3}
   - {fileID: -2734880126824833138, guid: 47a62c03c17fba24b9d1fece73a4a979, type: 3}
   - {fileID: 7402255202188766449, guid: 250a9da5ce9584a468fb6f8f484b2eef, type: 3}
+  northId: 1
+  eastId: 1
+  southId: 0
+  westId: 0

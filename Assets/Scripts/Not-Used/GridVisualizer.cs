@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public class GridVisualizer : MonoBehaviour
@@ -14,7 +15,17 @@ public class GridVisualizer : MonoBehaviour
     public int GetRows => rows;
     public Vector3 GetCellSize => cellSize;
     public Vector3 GetStartPosition => startPosition;
-    
+
+    private void OnEnable()
+    {
+        UIControl.DebugChangeAction += b => drawGizmos = b;
+    }
+
+    private void OnDisable()
+    {
+        UIControl.DebugChangeAction -= b => drawGizmos = b;
+    }
+
     private Vector3 position;
 
     private void OnDrawGizmos()

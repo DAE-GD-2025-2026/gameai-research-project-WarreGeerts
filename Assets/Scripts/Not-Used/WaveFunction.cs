@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +8,29 @@ public class WaveFunction : MonoBehaviour
 {
     private struct GenerationSnapshot
     {
-        public List<(int index, Tile[] options, bool collapsed)> CellStates;
-        public int Iterations;
+        public List<(int index, Tile[] options, bool collapsed)> cellStates;
+        public int iterations;
     }
-    
+
     [Header("default options")] [SerializeField]
     private int dimensions;
 
-    [SerializeField] private Tile[] tileObjects;
+    [SerializeField] private Tile[] tileObjects; //has every possible tile that can be spawned
     [SerializeField] private Cell cellObj;
 
     [Header(" ")] [SerializeField] private float generationSpeed = 0.01f;
     [SerializeField] private bool debugState = true;
-    
-    
+
+
     private readonly Stack<GenerationSnapshot> _history = new Stack<GenerationSnapshot>();
-    
+
     private List<Cell> _gridComponents;
     private Cell _failedCell;
     private Cell _currentCell;
 
     private int _iterations;
+
+    public static Action CombineCellsAction;
 
     //UI events to listen to, subscribe onEnable
     private void OnEnable()
@@ -37,6 +39,7 @@ public class WaveFunction : MonoBehaviour
         UIControl.DebugChangeAction += b => debugState = b;
         UIControl.GenerateAction += InitializeGrid;
     }
+
     //UI events to listen to, unsubscribe onEnable
     private void OnDisable()
     {
@@ -44,7 +47,7 @@ public class WaveFunction : MonoBehaviour
         UIControl.DebugChangeAction -= b => debugState = b;
         UIControl.GenerateAction -= InitializeGrid;
     }
-    
+
     private void Awake()
     {
         _gridComponents = new List<Cell>();
@@ -62,7 +65,7 @@ public class WaveFunction : MonoBehaviour
         _failedCell = null;
         _currentCell = null;
         _iterations = 0;
-        
+
         if (_gridComponents.Count > 0)
             _gridComponents.Clear();
 
@@ -85,11 +88,11 @@ public class WaveFunction : MonoBehaviour
                 _gridComponents.Add(newCell);
             }
         }
-        
-        StopAllCoroutines(); 
+
+        StopAllCoroutines();
         StartCoroutine(CheckEntropy());
     }
-    
+
     /// <summary>
     /// The main generation loop that identifies cells with the lowest entropy (fewest remaining options) 
     /// and processes them one by one. It pauses based on generationSpeed until the entire grid is collapsed.
@@ -103,6 +106,8 @@ public class WaveFunction : MonoBehaviour
             if (tempGrid.Count == 0)
             {
                 Debug.Log("Finished");
+                CleanUpCells();
+                CombineCellsAction?.Invoke();
                 yield break;
             }
 
@@ -118,7 +123,7 @@ public class WaveFunction : MonoBehaviour
             CollapseCell(tempGrid);
         }
     }
-    
+
     /// <summary>
     /// Randomly selects a cell to collapse, assigns it a final tile from its available options, 
     /// and triggers a grid-wide constraint update. Includes backtracking logic to handle 
@@ -142,6 +147,7 @@ public class WaveFunction : MonoBehaviour
                 Debug.LogError("Out of backtracks — full reset.");
                 InitializeGrid();
             }
+
             return;
         }
 
@@ -150,7 +156,7 @@ public class WaveFunction : MonoBehaviour
         _currentCell = cellToCollapse;
         cellToCollapse.Collapsed = true;
         Tile selectedTile = cellToCollapse.TileOptions[UnityEngine.Random.Range(0, cellToCollapse.TileOptions.Length)];
-        cellToCollapse.TileOptions = new [] { selectedTile };
+        cellToCollapse.TileOptions = new[] { selectedTile };
 
         Tile foundTile = cellToCollapse.TileOptions[0];
         var tile = Instantiate(foundTile, cellToCollapse.transform.position, foundTile.gameObject.transform.rotation);
@@ -158,7 +164,7 @@ public class WaveFunction : MonoBehaviour
 
         UpdateGeneration();
     }
-    
+
     /// <summary>
     /// Updates the entropy of the grid by propagating constraints. 
     /// For each uncollapsed cell, it filters the available tile options based on 
@@ -180,28 +186,36 @@ public class WaveFunction : MonoBehaviour
                 else
                 {
                     List<Tile> options = new List<Tile>();
+                    List<SideID> sideIds = new List<SideID>();
+                    
+                    //gets every tile that get used into a new list
                     foreach (var t in tileObjects)
                     {
                         options.Add(t);
                     }
 
-                    if (y > 0)
+                    if (y > 0) //north
                     {
-                        Cell up = _gridComponents[x + (y - 1) * dimensions];
-                        List<Tile> validOptions = new List<Tile>();
+                        Cell up = _gridComponents[x + (y - 1) * dimensions]; //Gets the neighboring cell in the north
+                        List<Tile> validOptions = new List<Tile>(); //gets the valid options from the tile (hardcoded)
 
-                        foreach (var possibleOptions in up.TileOptions)
+                        //for every possible option in the TileOptions for the northern neighbor
+                        foreach (var possibleOptions in up.TileOptions) 
                         {
-                            var valOption = Array.FindIndex(tileObjects, obj => obj == possibleOptions);
-                            var valid = tileObjects[valOption].UpNeighbors;
+                            //gets the current index of the tile 
+                            var valOption = Array.FindIndex(tileObjects, obj => obj == possibleOptions); 
+                            //Gets the upNeighbors from the Tile with index valOption
+                            var valid = tileObjects[valOption].UpNeighbors; 
 
-                            validOptions = validOptions.Concat(valid).ToList();
+                            validOptions = validOptions.Concat(valid).ToList(); //adds the valid to validOptions
                         }
 
+                        //checks if validOptions contains the items in options if not than remove the option in options
                         CheckValidity(options, validOptions);
+                        CheckValidityID();
                     }
 
-                    if (x < dimensions - 1)
+                    if (x < dimensions - 1) // east
                     {
                         Cell right = _gridComponents[x + 1 + y * dimensions];
                         List<Tile> validOptions = new List<Tile>();
@@ -217,7 +231,7 @@ public class WaveFunction : MonoBehaviour
                         CheckValidity(options, validOptions);
                     }
 
-                    if (y < dimensions - 1)
+                    if (y < dimensions - 1) //south
                     {
                         Cell down = _gridComponents[x + (y + 1) * dimensions];
                         List<Tile> validOptions = new List<Tile>();
@@ -233,7 +247,7 @@ public class WaveFunction : MonoBehaviour
                         CheckValidity(options, validOptions);
                     }
 
-                    if (x > 0)
+                    if (x > 0) //west
                     {
                         Cell left = _gridComponents[x - 1 + y * dimensions];
                         List<Tile> validOptions = new List<Tile>();
@@ -282,6 +296,25 @@ public class WaveFunction : MonoBehaviour
             }
         }
     }
+    
+    
+    /// <summary>
+    /// Filters the available options by removing any IDs that is equal
+    /// to provided valid ID
+    /// </summary>
+    /// <param name="optionList">List of all available IDs.</param>
+    /// <param name="validID">Valid ID of the side</param>
+    private static void CheckValidityID(List<SideID> optionList, SideID validID)
+    {
+        for (var x = optionList.Count - 1; x >= 0; x--)
+        {
+            var element = optionList[x];
+            if (validID != element)
+            {
+                optionList.RemoveAt(x);
+            }
+        }
+    }
 
     /// <summary>
     /// Captures the current state of the entire grid, including all remaining tile options 
@@ -291,8 +324,8 @@ public class WaveFunction : MonoBehaviour
     {
         var snapshot = new GenerationSnapshot
         {
-            CellStates = _gridComponents.Select((c, i) => (i, c.TileOptions.ToArray(), c.Collapsed)).ToList(),
-            Iterations = _iterations
+            cellStates = _gridComponents.Select((c, i) => (i, c.TileOptions.ToArray(), c.Collapsed)).ToList(),
+            iterations = _iterations
         };
         _history.Push(snapshot);
     }
@@ -303,19 +336,36 @@ public class WaveFunction : MonoBehaviour
     /// the iteration counter. Returns false if no history exists to backtrack to.
     /// </summary>
     /// <returns>Returns a bool based on if the Stack that has been used is equal to 0 or not</returns>
-
     private bool RestoreSnapshot()
     {
         if (_history.Count == 0) return false;
 
         var snapshot = _history.Pop();
-        foreach (var (index, options, collapsed) in snapshot.CellStates)
+        foreach (var (index, options, collapsed) in snapshot.cellStates)
         {
             _gridComponents[index].RecreateCell(options);
             _gridComponents[index].Collapsed = collapsed;
         }
-        _iterations = snapshot.Iterations;
+
+        _iterations = snapshot.iterations;
         return true;
+    }
+
+
+    /// <summary>
+    /// Cleans up all the empty cell types inside the gameObject
+    /// </summary>
+    private void CleanUpCells()
+    {
+        for (var i = transform.childCount - 1; i >= 0; i--)
+        {
+            var child = transform.GetChild(i);
+
+            if (child.name.ToLower().Contains("cell"))
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 
     private void OnDrawGizmos()
@@ -348,4 +398,4 @@ public class WaveFunction : MonoBehaviour
             Gizmos.DrawCube(_currentCell.transform.position, new Vector3(2.1f, 2.1f, 2.1f));
         }
     }
-}
+}*/

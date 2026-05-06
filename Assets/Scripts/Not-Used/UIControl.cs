@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UIControl : MonoBehaviour
 {
+    [Header("UI objects")]
     [SerializeField] private GameObject speedInput;
     [SerializeField] private Toggle toggleDebug;
 
