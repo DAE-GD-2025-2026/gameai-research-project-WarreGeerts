@@ -47,3 +47,5 @@ During the development, I focused on:
 * **Original WFC Repository**: [Maxim Gumin's WFC](https://github.com/mxgmn/WaveFunctionCollapse)
 
 * **Technical Explanation**: [Robert Heaton - The Wavefunction Collapse Algorithm explained](https://robertheaton.com/2018/12/17/wavefunction-collapse-algorithm/)
+
+* **Paper about implementation**: [Tristan Wauthier WFC paper](https://tristanwauthier.com/PDF/GW_2223_Tristan_Wauthier_EN_Paper.pdf)
