@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: sky
   m_EditorClassIdentifier: Assembly-CSharp::EdgeID
   edgeDetails:
-    idName: sky
-    edgeId: 0
+    idName: Sky
+    edgeId: -2
     isSymmetric: 1
     isFlipped: 0
     rotationIndex: 0

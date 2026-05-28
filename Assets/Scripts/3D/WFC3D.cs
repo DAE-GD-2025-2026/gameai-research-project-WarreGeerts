@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,10 +116,6 @@ public class WFC3D : MonoBehaviour
                 {
                     _allRotatedCandidates.Add(candidate);
                 }
-                else
-                {
-                    Debug.LogError($"Prefab {prefab.name} is missing a WFCCell3D component!", prefab);
-                }
             }
         }
     }
@@ -146,14 +141,14 @@ public class WFC3D : MonoBehaviour
                     List<TileCandidate> validTiles = new List<TileCandidate>(_allRotatedCandidates);
 
                     //If you need to remove some to make generation better depending on coords
-                    /*if (y == 0)
+                    if (y == 0)
                     {
                         validTiles.RemoveAll(t => bottomExclusions.Contains(t.prefab));
                     }
                     if (y == sizeY - 1)
                     {
                         validTiles.RemoveAll(t => topExclusions.Contains(t.prefab));
-                    }*/
+                    }
 
                     //add validTiles to the possibleTiles of the cell
                     _grid[x, y, z].possibleTiles = validTiles;
@@ -178,18 +173,15 @@ public class WFC3D : MonoBehaviour
 
             //make a cell object using the grid and the lowest entropy cell
             var cell = _grid[lowestEntropyCoord.x, lowestEntropyCoord.y, lowestEntropyCoord.z];
-            Debug.Log($"Lowest entropy: {cell.GetEntropy()}");
 
             //Contradiction if the cells possible tile count is 0
             if (cell.possibleTiles.Count == 0)
             {
-                Debug.Log($"No possible tiles");
                 _lastContradictionCoords = lowestEntropyCoord;
                 yield return false;
                 yield break;
             }
 
-            Debug.Log($"possible tiles");
             //if no contradiction than collapse the cell 
             cell.CollapseCell();
             //Go to propagation stage with the lowest entropy coord
@@ -264,7 +256,6 @@ public class WFC3D : MonoBehaviour
         collapseCellStack.Push(firstCollapsedCoords);
         inStack.Add(firstCollapsedCoords);
 
-        Debug.Log($"Collapsing cells: {collapseCellStack.Count}");
 
         //while the collapse stack isn't empty
         while (collapseCellStack.Count > 0)
@@ -296,7 +287,6 @@ public class WFC3D : MonoBehaviour
                     //if it returned true, then push the coords on top of the stack for the next execution
                     if (!inStack.Contains(neighborCoord))
                     {
-                        Debug.Log($"Add neighbor coord");
                         collapseCellStack.Push(neighborCoord);
                         inStack.Add(neighborCoord);
                     }
@@ -345,45 +335,34 @@ public class WFC3D : MonoBehaviour
 
     private bool CheckValidNeighbor(TileCandidate current, TileCandidate neighbor, Vector3Int dir)
     {
-        //nul checks
+        //null checks
         if (current.cellData == null || neighbor.cellData == null) return false;
 
-        /*//gets the cell component of the source TileCandidate
-        WFCCell3D cData = current.prefab.GetComponent<WFCCell3D>();
-        //gets the cell component of the neighbor TileCandidate
-        WFCCell3D nData = neighbor.prefab.GetComponent<WFCCell3D>();
-
-        //nul checks
-        if (cData == null || nData == null) return false;*/
-
-        //Gets the EdgeID based on the rotation index and the direction,
-        //neighbor direction is negative because its next to each other
-        /*EdgeID currentEdgeID = GetRotatedEdgeID(cData, current.rotationIndex, dir);
-        EdgeID neighborEdgeID = GetRotatedEdgeID(nData, neighbor.rotationIndex, -dir);*/
-
-        EdgeID currentEdgeID = GetRotatedEdgeID(current.cellData, current.rotationIndex, dir);
-        EdgeID neighborEdgeID = GetRotatedEdgeID(neighbor.cellData, neighbor.rotationIndex, -dir);
-
-        //returns the true if the edges are compatible with each other
-        return AreEdgesCompatible(currentEdgeID, neighborEdgeID);
+        //Get the resolvedEdge of this function, using the current cellData, the rotation Index and the direction (+ & -)
+        ResolvedEdge currentEdge = GetRotatedEdgeID(current.cellData, current.rotationIndex, dir);
+        ResolvedEdge neighborEdge = GetRotatedEdgeID(neighbor.cellData, neighbor.rotationIndex, -dir);
+        
+        //returns true or false if the edges are compatible
+        return AreEdgesCompatible(currentEdge, neighborEdge);
     }
 
-
-    private EdgeID GetRotatedEdgeID(WFCCell3D data, int rotationIndex, Vector3Int direction)
+    private ResolvedEdge GetRotatedEdgeID(WFCCell3D data, int rotationIndex, Vector3Int direction)
     {
-        //if the direction is up it returns the data Y positive, if down it returns the data Y negative
-        /*if (direction == Vector3Int.up) return data.Yp;
-        if (direction == Vector3Int.down) return data.Yn;*/
+        //checks if direction is up or down, if so call the ResolveEdge.FromEdgeID with the data inside the Yp or Yn part,
+        //the rotation index and setting the bool tru because it's vertical
+        if (direction == Vector3Int.up)
+            return ResolvedEdge.FromEdgeID(data.Yp, rotationIndex, true);
+        if (direction == Vector3Int.down)
+            return ResolvedEdge.FromEdgeID(data.Yn, rotationIndex, true);
 
-        //function that converts the direction into a rotation index
+        //Convert the direction into index
         int compassIndex = ConvertDirectionToCompassIndex(direction);
-        //gets the rotated index
+        //make sure its always positive
         int rotatedIndex = (compassIndex - rotationIndex) % 4;
-        //if the rotated index is smaller than 0 add 4 to it
         if (rotatedIndex < 0) rotatedIndex += 4;
-
-        //return the data corresponding to the rotatedIndex
-        return rotatedIndex switch
+        
+        //get the corresponding data with each index
+        EdgeID horizontalEdge = rotatedIndex switch
         {
             0 => data.Zp,
             1 => data.Xp,
@@ -391,6 +370,9 @@ public class WFC3D : MonoBehaviour
             3 => data.Xn,
             _ => data.Zp
         };
+
+        //return the resolved Edge based on the horizontalEdge, rotationIndex and setting the bool to false because its horizontal
+        return ResolvedEdge.FromEdgeID(horizontalEdge, rotationIndex, false);
     }
 
     private int ConvertDirectionToCompassIndex(Vector3Int dir)
@@ -404,18 +386,23 @@ public class WFC3D : MonoBehaviour
         return 0;
     }
 
-    private bool AreEdgesCompatible(EdgeID edgeA, EdgeID edgeB)
+    private bool AreEdgesCompatible(ResolvedEdge edgeA, ResolvedEdge edgeB)
     {
-        //null checks
-        if (edgeA == null || edgeB == null) return true;
-        if (edgeA.edgeDetails == null || edgeB.edgeDetails == null) return true;
+        // Null sentinel check
+        if (edgeA.edgeId == -999 || edgeB.edgeId == -999) return true;
 
-        //if the edge IDs are not the same return false
-        if (edgeA.edgeDetails.edgeId != edgeB.edgeDetails.edgeId) return false;
-        //if edge A is rotationally invariant or symmetric return true
-        if (edgeA.edgeDetails.isRotationallyInvariant || edgeA.edgeDetails.isSymmetric) return true;
-        //returns true if edge A isFlipped isn't the same as edge B isFlipper
-        return edgeA.edgeDetails.isFlipped != edgeB.edgeDetails.isFlipped;
+        // IDs must match
+        if (edgeA.edgeId != edgeB.edgeId) return false;
+
+        // Invariant or symmetric = always compatible with itself
+        if (edgeA.isRotationallyInvariant || edgeA.isSymmetric) return true;
+
+        // Asymmetric horizontal = must be opposite flips
+        if (edgeA.isFlipped || edgeB.isFlipped)
+            return edgeA.isFlipped != edgeB.isFlipped;
+
+        // Rotated vertical faces = rotation indices must match
+        return edgeA.rotationIndex == edgeB.rotationIndex;
     }
 
     private void OnDrawGizmos()

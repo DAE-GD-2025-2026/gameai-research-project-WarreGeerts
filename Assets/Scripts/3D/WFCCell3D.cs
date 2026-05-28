@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-using System.Collections.Generic;
-using UnityEngine;
-
 public class WFCCell3D : MonoBehaviour
 {
     [SerializeField] private EdgeID yP; 
@@ -39,24 +35,55 @@ public class WFCCell3D : MonoBehaviour
         //contradiction
         if (possibleTiles.Count == 0) return;
 
-        //Get random inside the possible tiles
+        //take a random outside the possible tiles
         var rand = Random.Range(0, possibleTiles.Count);
-        //Set the collapsedTile to the random index inside possibleTiles
+        //set the collapsed tile equal to the possibleTile with the random index
         _collapsedTile = possibleTiles[rand];
 
-        //Add the rotation to the tile
+        //Get the prefab's own baked rotation
+        Quaternion prefabBaseRotation = _collapsedTile.prefab.transform.rotation;
+    
+        //Apply WFC Y-spin ON TOP of the prefab's base rotation
         Quaternion wfcGridSpin = Quaternion.Euler(0f, _collapsedTile.rotationIndex * 90f, 0f);
-        Quaternion finalRotation = wfcGridSpin;
+        Quaternion finalRotation = wfcGridSpin * prefabBaseRotation;
 
-        //instantiate the tile
+        //instantiate the new prefab
         GameObject visual = Instantiate(_collapsedTile.prefab, transform.position, finalRotation);
-        //set the parent to the pre-generated cell
+        //set its parent to the current cell
         visual.transform.SetParent(this.transform);
 
-        //its collapsed
+        //cell is collapsed
         _isCollapsed = true;
-        //clear the possible tiles
+        //clear to avoid confusions
         possibleTiles.Clear();
+    }
+}
+
+public struct ResolvedEdge
+{
+    public int edgeId;
+    public bool isSymmetric;
+    public bool isFlipped;
+    public bool isRotationallyInvariant;    
+    public int rotationIndex;
+
+    public static ResolvedEdge FromEdgeID(EdgeID id, int tileRotation, bool isVertical)
+    {
+        //null check
+        if (id == null || id.edgeDetails == null)
+            return new ResolvedEdge { edgeId = -999 };
+
+        var d = id.edgeDetails;
+        
+        //return a newly made ResolvedEdge using the edgeDetails of the EdgeID
+        return new ResolvedEdge
+        {
+            edgeId = d.edgeId,
+            isSymmetric = d.isSymmetric,
+            isFlipped = d.isFlipped,
+            isRotationallyInvariant = d.isRotationallyInvariant,
+            rotationIndex = isVertical ? tileRotation : d.rotationIndex
+        };
     }
 }
 

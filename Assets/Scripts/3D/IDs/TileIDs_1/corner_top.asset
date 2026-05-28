@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62b3094e307c7e04dbc320296b41c67e, type: 3}
-  m_Name: wallTop
+  m_Name: corner_top
   m_EditorClassIdentifier: Assembly-CSharp::EdgeID
   edgeDetails:
-    idName: wall_top
-    edgeId: 8
+    idName: v4_0
+    edgeId: 4
     isSymmetric: 0
     isFlipped: 0
     rotationIndex: 0

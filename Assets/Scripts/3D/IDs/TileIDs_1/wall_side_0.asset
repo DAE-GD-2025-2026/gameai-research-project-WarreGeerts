@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62b3094e307c7e04dbc320296b41c67e, type: 3}
-  m_Name: slanted_1
+  m_Name: wall_side_0
   m_EditorClassIdentifier: Assembly-CSharp::EdgeID
   edgeDetails:
-    idName: slanted_1
+    idName: 3
     edgeId: 3
     isSymmetric: 0
-    isFlipped: 1
+    isFlipped: 0
     rotationIndex: 0
     isRotationallyInvariant: 0

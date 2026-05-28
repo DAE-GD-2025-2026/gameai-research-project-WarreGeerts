@@ -15,7 +15,7 @@ MonoBehaviour:
   edgeDetails:
     idName: v3_0
     edgeId: 3
-    isSymmetric: 0
+    isSymmetric: 1
     isFlipped: 0
     rotationIndex: 0
     isRotationallyInvariant: 0

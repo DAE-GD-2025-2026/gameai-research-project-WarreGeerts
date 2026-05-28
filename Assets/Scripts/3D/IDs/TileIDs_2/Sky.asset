@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62b3094e307c7e04dbc320296b41c67e, type: 3}
-  m_Name: wall_0
+  m_Name: Sky
   m_EditorClassIdentifier: Assembly-CSharp::EdgeID
   edgeDetails:
-    idName: wall_0
-    edgeId: 4
-    isSymmetric: 0
+    idName: Sky
+    edgeId: -2
+    isSymmetric: 1
     isFlipped: 0
     rotationIndex: 0
-    isRotationallyInvariant: 0
+    isRotationallyInvariant: 1
