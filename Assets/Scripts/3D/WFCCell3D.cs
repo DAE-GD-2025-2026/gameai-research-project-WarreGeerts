@@ -78,11 +78,14 @@ public class WFCCell3D : MonoBehaviour
             }
             randomWeightPoint -= possibleTiles[i].cellData.weight;
         }
+        
+        _isCollapsed = true;
 
-        /*//take a random outside the possible tiles
-        var rand = Random.Range(0, possibleTiles.Count);
-        //set the collapsed tile equal to the possibleTile with the random index
-        _collapsedTile = possibleTiles[rand];*/
+        if (_collapsedTile.prefab != null && _collapsedTile.prefab.name.ToLower().Contains("air"))
+        {
+            possibleTiles.Clear();
+            return; // Skip Instantiate entirely
+        }
 
         //Get the prefab's own baked rotation
         Quaternion prefabBaseRotation = _collapsedTile.prefab.transform.rotation;
@@ -97,7 +100,6 @@ public class WFCCell3D : MonoBehaviour
         visual.transform.SetParent(this.transform);
 
         //cell is collapsed
-        _isCollapsed = true;
         //clear to avoid confusions
         possibleTiles.Clear();
     }

@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
 public class WFC3D : MonoBehaviour
@@ -20,7 +24,7 @@ public class WFC3D : MonoBehaviour
     private WFCCell3D[,,] _grid;
 
     private List<TileCandidate> _allRotatedCandidates = new List<TileCandidate>();
-
+    
     private readonly Vector3Int[] _directions =
     {
         Vector3Int.up,
@@ -41,9 +45,12 @@ public class WFC3D : MonoBehaviour
         //start the co-routine, Generate the map and when a contradiction is found retry (no backtracking)
         StartCoroutine(GenerateWithRetry());
     }
+    
 
     private IEnumerator GenerateWithRetry()
     {
+        string filePath = Path.Combine(Application.dataPath, "wfc_processing_times.txt");
+        
         //continue to loop
         while (true)
         {
@@ -52,6 +59,8 @@ public class WFC3D : MonoBehaviour
             //Generate the empty tiles inside the grid
             GenerateGrid();
 
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            
             //Run the co-routine and set solver = to the co-routine
             IEnumerator solver = RunWfcCoroutine();
             //contradiction boolean
@@ -67,15 +76,21 @@ public class WFC3D : MonoBehaviour
                     contradiction = true;
                     break;
                 }
-
                 //wait 0.01 seconds
-                yield return new WaitForSeconds(0.01f);
+                //yield return new WaitForSeconds(0.01f);
             }
 
+            stopwatch.Stop();
+            
             //if there are no contradictions print a green log "Success!"
             if (!contradiction)
             {
                 Debug.Log("<color=#00FF00>Success!</color>");
+                double timeTaken = stopwatch.Elapsed.TotalSeconds;
+                Debug.Log($"Processing time: {stopwatch.Elapsed.TotalSeconds:F4} seconds ({stopwatch.ElapsedMilliseconds} ms)");  
+                
+                File.AppendAllText(filePath, timeTaken.ToString(System.Globalization.CultureInfo.InvariantCulture) + Environment.NewLine);
+                
                 yield break;
             }
 
@@ -163,19 +178,36 @@ public class WFC3D : MonoBehaviour
         //continue to loop
         while (true)
         {
-            //Get the lowest entropy cell inside the grid
-            var lowestEntropyCoord = GetLowestEntropyCell(_grid);
+            Vector3Int lowestEntropyCoord;
+            while (true)
+            {
+                //Get the lowest entropy cell inside the grid
+                lowestEntropyCoord = GetLowestEntropyCell(_grid, out bool isDeterministicAir);
+                // If it's a structural element or grid is done, break out to standard frame loop
+                if (!isDeterministicAir || lowestEntropyCoord.x < 0)
+                    break;
 
-            //Contradiction if x coord is smaller than 0 (-1 fall back)
+                var airCell = _grid[lowestEntropyCoord.x, lowestEntropyCoord.y, lowestEntropyCoord.z];
+
+                // Safety check for contradiction before automatic background processing
+                if (airCell.possibleTiles.Count == 0)
+                {
+                    _lastContradictionCoords = lowestEntropyCoord;
+                    yield return false;
+                    yield break;
+                }
+
+                // Instantly collapse and propagate without rendering or waiting a frame
+                airCell.CollapseCell();
+                Propagation(lowestEntropyCoord);
+            }
+
+            // If the grid is entirely finished, terminate successfully
             if (lowestEntropyCoord.x < 0) yield break;
 
-            //set the current processing coord to the lowest entropy cell
             _currentProcessingCoords = lowestEntropyCoord;
-
-            //make a cell object using the grid and the lowest entropy cell
             var cell = _grid[lowestEntropyCoord.x, lowestEntropyCoord.y, lowestEntropyCoord.z];
 
-            //Contradiction if the cells possible tile count is 0
             if (cell.possibleTiles.Count == 0)
             {
                 _lastContradictionCoords = lowestEntropyCoord;
@@ -183,9 +215,8 @@ public class WFC3D : MonoBehaviour
                 yield break;
             }
 
-            //if no contradiction than collapse the cell 
+            // Normal structural block placement (this will yield a frame for visual progress)
             cell.CollapseCell();
-            //Go to propagation stage with the lowest entropy coord
             Propagation(lowestEntropyCoord);
 
             //return true because no contradiction happened
@@ -193,8 +224,9 @@ public class WFC3D : MonoBehaviour
         }
     }
 
-    private static Vector3Int GetLowestEntropyCell(WFCCell3D[,,] cells)
+    private static Vector3Int GetLowestEntropyCell(WFCCell3D[,,] cells, out bool isDeterministicAir)
     {
+        isDeterministicAir = false;
         //Set the minimum to the highest int possible
         int minEntropy = int.MaxValue;
         //makes a list for all possible candidates
@@ -220,6 +252,12 @@ public class WFC3D : MonoBehaviour
                     //Gets the cell's current entropy
                     int curEntropy = cell.GetEntropy();
 
+                    if (curEntropy == 1 && cell.possibleTiles[0].prefab.name.ToLower().Contains("air"))
+                    {
+                        isDeterministicAir = true;
+                        return new Vector3Int(x, y, z);
+                    }
+
                     //if the entropy is lower than the minimum set current entropy to that new entropy
                     if (curEntropy < minEntropy)
                     {
@@ -237,7 +275,7 @@ public class WFC3D : MonoBehaviour
             }
 
             //if the layer has not been collapsed return a random coords inside the candidates list
-            if (layerHasUncollapsed)
+            if (layerHasUncollapsed && candidates.Count > 0)
             {
                 return candidates[Random.Range(0, candidates.Count)];
             }
