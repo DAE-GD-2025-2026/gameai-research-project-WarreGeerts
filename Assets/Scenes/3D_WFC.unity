@@ -274,9 +274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a9813ba093ff44faf5bd44bdb7e7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFC3D
-  sizeX: 10
-  sizeY: 4
-  sizeZ: 10
+  sizeX: 50
+  sizeY: 7
+  sizeZ: 50
   sourcePrefabs: {fileID: 224808447}
   bottomExclusions:
   - {fileID: 1941597029}
@@ -350,6 +350,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xP: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &171636133 stripped
 GameObject:
@@ -374,6 +376,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xP: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
+  weight: 0.1
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &186155852 stripped
 GameObject:
@@ -398,6 +402,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xP: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
+  weight: 0.5
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &224808447 stripped
 GameObject:
@@ -432,6 +438,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 134fb8d8d72f5044aad5b6be558bd4ee, type: 2}
   xP: {fileID: 11400000, guid: 8b899e202cc5b3b4c865d1cf1b8213a6, type: 2}
   xN: {fileID: 11400000, guid: 134fb8d8d72f5044aad5b6be558bd4ee, type: 2}
+  weight: 1
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &444441000
 GameObject:
@@ -593,6 +601,16 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 453b0a86ff9d4e24e872b2ee366a8df1, type: 2}
   xP: {fileID: 11400000, guid: 61ecb49e3aa2d4b4dbd2f737241fe400, type: 2}
   xN: {fileID: 11400000, guid: 453b0a86ff9d4e24e872b2ee366a8df1, type: 2}
+  weight: 2
+  excludedNeighbors:
+  - direction: {x: -1, y: 0, z: 0}
+    forbiddenPrefabs:
+    - {fileID: 2058688903}
+    - {fileID: 563166644}
+  - direction: {x: 0, y: 0, z: -1}
+    forbiddenPrefabs:
+    - {fileID: 2058688903}
+    - {fileID: 563166644}
   possibleTiles: []
 --- !u!114 &616019660
 MonoBehaviour:
@@ -612,6 +630,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xP: {fileID: 11400000, guid: 365133c3b60dccd459e3f8e3e3360972, type: 2}
   xN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &697375345 stripped
 GameObject:
@@ -636,6 +656,14 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 61ecb49e3aa2d4b4dbd2f737241fe400, type: 2}
   xP: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xN: {fileID: 11400000, guid: cf8de76d1efceeb46af90bb7602981a7, type: 2}
+  weight: 2
+  excludedNeighbors:
+  - direction: {x: -1, y: 0, z: 0}
+    forbiddenPrefabs:
+    - {fileID: 697375345}
+  - direction: {x: 0, y: 0, z: -1}
+    forbiddenPrefabs:
+    - {fileID: 697375345}
   possibleTiles: []
 --- !u!1 &727266305 stripped
 GameObject:
@@ -660,6 +688,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: bfc3482f330569349b4f2a133f6be18b, type: 2}
   xP: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
+  weight: 0.1
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!4 &819955974 stripped
 Transform:
@@ -811,6 +841,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xP: {fileID: 11400000, guid: e728663a7f20add458dd6b3efdecdbf9, type: 2}
   xN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &983305651 stripped
 GameObject:
@@ -835,6 +867,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 134fb8d8d72f5044aad5b6be558bd4ee, type: 2}
   xP: {fileID: 11400000, guid: 8b899e202cc5b3b4c865d1cf1b8213a6, type: 2}
   xN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
+  weight: 1
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1001 &1008983163
 PrefabInstance:
@@ -855,6 +889,10 @@ PrefabInstance:
     - target: {fileID: 983688866543170391, guid: 7a22717fe2aec2d4bb63cf2ec3e3b4f0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6575460355287920430, guid: 7a22717fe2aec2d4bb63cf2ec3e3b4f0, type: 3}
+      propertyPath: weight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7246623324137301286, guid: 7a22717fe2aec2d4bb63cf2ec3e3b4f0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -919,6 +957,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xP: {fileID: 11400000, guid: 365133c3b60dccd459e3f8e3e3360972, type: 2}
   xN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1001 &1229359231
 PrefabInstance:
@@ -1126,6 +1166,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
   xP: {fileID: 11400000, guid: 3fc5a61825473c4468b3797891f39f3a, type: 2}
   xN: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!114 &1229359242
 MonoBehaviour:
@@ -1145,6 +1187,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xP: {fileID: 11400000, guid: e728663a7f20add458dd6b3efdecdbf9, type: 2}
   xN: {fileID: 11400000, guid: e728663a7f20add458dd6b3efdecdbf9, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!114 &1229359243
 MonoBehaviour:
@@ -1164,6 +1208,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 28f7f9315a53b7b44a07e2e8552e7ae5, type: 2}
   xP: {fileID: 11400000, guid: 365133c3b60dccd459e3f8e3e3360972, type: 2}
   xN: {fileID: 11400000, guid: 365133c3b60dccd459e3f8e3e3360972, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!114 &1229359244
 MonoBehaviour:
@@ -1183,6 +1229,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: b8dbc44771a57f44890abd01336a4f00, type: 2}
   xP: {fileID: 11400000, guid: 3fc5a61825473c4468b3797891f39f3a, type: 2}
   xN: {fileID: 11400000, guid: 3fc5a61825473c4468b3797891f39f3a, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!114 &1229359245
 MonoBehaviour:
@@ -1202,6 +1250,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
   xP: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
   xN: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1 &1257839864 stripped
 GameObject:
@@ -1320,6 +1370,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xP: {fileID: 11400000, guid: 134fb8d8d72f5044aad5b6be558bd4ee, type: 2}
   xN: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
+  weight: 1
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1001 &2030592156
 PrefabInstance:
@@ -1332,6 +1384,10 @@ PrefabInstance:
     - target: {fileID: 541974501852513053, guid: ee75c4f47a1eb7c4a950fe27c2550cd7, type: 3}
       propertyPath: m_Name
       value: Empty
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730631471426249960, guid: ee75c4f47a1eb7c4a950fe27c2550cd7, type: 3}
+      propertyPath: weight
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6371653692710051267, guid: ee75c4f47a1eb7c4a950fe27c2550cd7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1401,6 +1457,12 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 61ecb49e3aa2d4b4dbd2f737241fe400, type: 2}
   xP: {fileID: 11400000, guid: 2808a8f16eeb3ac4992c9e47b75c55de, type: 2}
   xN: {fileID: 11400000, guid: 453b0a86ff9d4e24e872b2ee366a8df1, type: 2}
+  weight: 4
+  excludedNeighbors:
+  - direction: {x: -1, y: 0, z: 0}
+    forbiddenPrefabs:
+    - {fileID: 2058688903}
+    - {fileID: 563166644}
   possibleTiles: []
 --- !u!114 &2064792655
 MonoBehaviour:
@@ -1420,6 +1482,8 @@ MonoBehaviour:
   zN: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
   xP: {fileID: 11400000, guid: 3fc5a61825473c4468b3797891f39f3a, type: 2}
   xN: {fileID: 11400000, guid: 247733ad3814c784f84b8e0f4aee4c84, type: 2}
+  weight: 0
+  excludedNeighbors: []
   possibleTiles: []
 --- !u!1001 &2513285702502591978
 PrefabInstance:

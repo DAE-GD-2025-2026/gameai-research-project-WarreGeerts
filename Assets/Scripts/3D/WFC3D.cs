@@ -145,6 +145,7 @@ public class WFC3D : MonoBehaviour
                     {
                         validTiles.RemoveAll(t => bottomExclusions.Contains(t.prefab));
                     }
+
                     if (y == sizeY - 1)
                     {
                         validTiles.RemoveAll(t => topExclusions.Contains(t.prefab));
@@ -201,8 +202,8 @@ public class WFC3D : MonoBehaviour
         //a boolean to check if the layer has been uncollapsed
         bool layerHasUncollapsed = false;
         //for loop using the grid cells (range is from 0 to cells length (in dimension 1, y))
-        for (int y = 0; y < cells.GetLength(1); y++){
-
+        for (int y = 0; y < cells.GetLength(1); y++)
+        {
             //for loop using the grid cells (range is from 0 to cells length (in dimension 0, x))
             for (int x = 0; x < cells.GetLength(0); x++)
             {
@@ -338,12 +339,43 @@ public class WFC3D : MonoBehaviour
         //null checks
         if (current.cellData == null || neighbor.cellData == null) return false;
 
+        Vector3Int localDirForCurrent = GetLocalDirection(dir, current.rotationIndex);
+
+        if (current.cellData.IsPrefabExcluded(neighbor.prefab, localDirForCurrent))
+        {
+            return false;
+        }
+
+        Vector3Int localDirForNeighbor = GetLocalDirection(-dir, neighbor.rotationIndex);
+        if (neighbor.cellData.IsPrefabExcluded(current.prefab, localDirForNeighbor))
+        {
+            return false;
+        }
+
         //Get the resolvedEdge of this function, using the current cellData, the rotation Index and the direction (+ & -)
         ResolvedEdge currentEdge = GetRotatedEdgeID(current.cellData, current.rotationIndex, dir);
         ResolvedEdge neighborEdge = GetRotatedEdgeID(neighbor.cellData, neighbor.rotationIndex, -dir);
-        
+
         //returns true or false if the edges are compatible
         return AreEdgesCompatible(currentEdge, neighborEdge);
+    }
+
+    private Vector3Int GetLocalDirection(Vector3Int worldDir, int rotationIndex)
+    {
+        if (worldDir == Vector3Int.up || worldDir == Vector3Int.down)
+        {
+            return worldDir;
+        }
+
+        int steps = (4 - rotationIndex) % 4;
+
+        Vector3Int localDir = worldDir;
+        for (int i = 0; i < steps; i++)
+        {
+            localDir = new Vector3Int(-localDir.z, 0, localDir.x);
+        }
+
+        return localDir;
     }
 
     private ResolvedEdge GetRotatedEdgeID(WFCCell3D data, int rotationIndex, Vector3Int direction)
@@ -360,7 +392,7 @@ public class WFC3D : MonoBehaviour
         //make sure its always positive
         int rotatedIndex = (compassIndex - rotationIndex) % 4;
         if (rotatedIndex < 0) rotatedIndex += 4;
-        
+
         //get the corresponding data with each index
         EdgeID horizontalEdge = rotatedIndex switch
         {
