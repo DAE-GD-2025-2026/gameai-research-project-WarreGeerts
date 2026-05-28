@@ -17,6 +17,12 @@ public class WFC2D : MonoBehaviour
 
     private void Start()
     {
+        GenerateGrid();
+        RunWfc();
+    }
+
+    private void GenerateGrid()
+    {
         _grid = new WFCCell2D[sizeX, sizeY];
 
         for (int x = 0; x < sizeX; x++)
@@ -27,8 +33,32 @@ public class WFC2D : MonoBehaviour
                 _grid[x, y].possibleTiles = new List<GameObject>(availableSprites);
             }
         }
+    }
 
-        Observation();
+    private void RunWfc()
+    {
+        while (true)
+        {
+            var lowestEntropyCoord = GetLowestEntropyCell(_grid);
+
+            if (lowestEntropyCoord.x < 0 || lowestEntropyCoord.y < 0)
+            {
+                Debug.Log($"<color=#00FF00>Finished generating</color>");
+                return;
+            }
+
+            var cell = _grid[lowestEntropyCoord.x, lowestEntropyCoord.y];
+
+            if (cell.possibleTiles.Count == 0)
+            {
+                Debug.LogError("Contradiction reached! No possible tiles for cell at " + lowestEntropyCoord);
+                return;
+            }
+
+            cell.CollapseCell();
+
+            Propagation(lowestEntropyCoord);
+        }
     }
 
     private void Observation()
@@ -80,8 +110,6 @@ public class WFC2D : MonoBehaviour
                 }
             }
         }
-
-        Observation();
     }
 
     private bool UpdateNeighborPossibilities(WFCCell2D sourceCell, WFCCell2D neighborCell, Vector2Int dir)
@@ -125,16 +153,19 @@ public class WFC2D : MonoBehaviour
             // Source Top must match Neighbor Bottom
             return sourceData.Up == neighborData.Down;
         }
+
         if (dir == Vector2Int.down)
         {
             // Source Bottom must match Neighbor Top
             return sourceData.Down == neighborData.Up;
         }
+
         if (dir == Vector2Int.right)
         {
             // Source Right must match Neighbor Left
             return sourceData.Right == neighborData.Left;
         }
+
         if (dir == Vector2Int.left)
         {
             // Source Left must match Neighbor Right
