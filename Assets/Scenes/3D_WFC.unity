@@ -261,7 +261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &92487300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,9 +274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a9813ba093ff44faf5bd44bdb7e7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFC3D
-  sizeX: 50
-  sizeY: 7
-  sizeZ: 50
+  sizeX: 100
+  sizeY: 5
+  sizeZ: 100
   sourcePrefabs: {fileID: 224808447}
   bottomExclusions:
   - {fileID: 1941597029}
@@ -2465,7 +2465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1831497114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,9 +2478,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a9813ba093ff44faf5bd44bdb7e7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFC3D
-  sizeX: 50
-  sizeY: 7
-  sizeZ: 50
+  sizeX: 100
+  sizeY: 5
+  sizeZ: 100
   sourcePrefabs: {fileID: 1355224378}
   bottomExclusions:
   - {fileID: 1355224385}
@@ -2546,7 +2546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1869542598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2559,9 +2559,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a9813ba093ff44faf5bd44bdb7e7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFC3D
-  sizeX: 50
-  sizeY: 7
-  sizeZ: 50
+  sizeX: 100
+  sizeY: 5
+  sizeZ: 100
   sourcePrefabs: {fileID: 1079803909}
   bottomExclusions:
   - {fileID: 1079803916}
@@ -2640,9 +2640,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a9813ba093ff44faf5bd44bdb7e7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WFC3D
-  sizeX: 20
-  sizeY: 7
-  sizeZ: 20
+  sizeX: 100
+  sizeY: 5
+  sizeZ: 100
   sourcePrefabs: {fileID: 1223295177}
   bottomExclusions:
   - {fileID: 1223295184}

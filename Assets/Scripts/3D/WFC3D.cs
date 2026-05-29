@@ -89,7 +89,7 @@ public class WFC3D : MonoBehaviour
                 double timeTaken = stopwatch.Elapsed.TotalSeconds;
                 Debug.Log($"Processing time: {stopwatch.Elapsed.TotalSeconds:F4} seconds ({stopwatch.ElapsedMilliseconds} ms)");  
                 
-                File.AppendAllText(filePath, timeTaken.ToString(System.Globalization.CultureInfo.InvariantCulture) + Environment.NewLine);
+                File.AppendAllText(filePath, timeTaken.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("de-DE")) + Environment.NewLine);
                 
                 yield break;
             }
