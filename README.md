@@ -100,7 +100,7 @@ To see how these configuration settings scale with environment volume, percentag
 
 * **The Scaling Curve**: As the absolute number of grid cells scales up, the execution time scales *superlinearly*. This is caused by the compounding nature of the propagation stack.
 
-<img src="https://github.com/user-attachments/assets/5173ce74-bc23-46f2-93ca-d844a35033a6" width="32%" /> <img src="https://github.com/user-attachments/assets/ed760ca7-582c-46de-82ce-7ac55876dc26" width="32%" /> <img src="https://github.com/user-attachments/assets/9274d5ad-817e-4f8d-a892-5812ecd540c2" width="32%" />
+<img src="https://github.com/user-attachments/assets/27af7601-20d5-49f2-b462-517deeab710f" width="32%" /> <img src="https://github.com/user-attachments/assets/0d7beaeb-67c8-407e-9ecf-68a9c010ebef" width="32%" /> <img src="https://github.com/user-attachments/assets/365b2784-3a01-45b8-ac7a-a1ef004346ff" width="32%" />
 
 * **The Negative Constraint Bottleneck**: The line charts reveal that the most severe performance penalty does not come from scaling up to "All" constraints, but explicitly from the introduction of **Negative Constraints**. At a modest 5,120 cells, adding negative constraints causes a manageable 154.89% increase in generation time compared to the base baseline. However, as the grid scales up, this tracking logic encounters a massive scaling wall.
 * **Algorithmic Cost of Exclusions**: This dramatic spike happens because of how the propagation pipeline handles exclusions on massive fields. While positive rules quickly narrow down choices, negative constraints force the system to iterate through every single neighbor cell and systematically evaluate what *cannot* exist. As the web of connections grows wider over 50,000 cells, processing these exclusion checks across the localized stack turns into a massive computational bottleneck, making the algorithm incredibly heavy before it even reaches the final "All Constraints" tier.
@@ -113,7 +113,7 @@ A specialized benchmark was designed to isolate the impact of spatial layout on 
 The resulting line graph charts the percentage runtime variance between these two identical-volume setups.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/dd5dc6cc-5038-4e47-b191-dc6c8fada149" alt="WFC Chart" width="70%" />
+  <img src="https://github.com/user-attachments/assets/03c2cbd3-6009-4b70-abed-cf8a97c96fc8" alt="WFC Chart" width="70%" />
 </p>
 
 * **Finding**: The data demonstrates that the **High Y-level configuration takes significantly longer to execute** than the Low Y-level layout.
