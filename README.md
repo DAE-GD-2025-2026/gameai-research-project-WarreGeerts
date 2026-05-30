@@ -126,7 +126,7 @@ The resulting line graph charts the percentage runtime variance between these tw
 ---
 
 ## 5. Visuals & Demos
-* **No Constaints**
+* **No Constraints**
 <p align="center">
   <img src="https://github.com/user-attachments/assets/9c978411-86a7-4ea5-8038-6bad12e0f53a" alt="WFC Chart" width="90%" />
 </p>
