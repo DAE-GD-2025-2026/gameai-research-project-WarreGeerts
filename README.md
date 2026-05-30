@@ -80,19 +80,19 @@ The system was benchmarked under three distinct constraint configurations to mea
 * **Graph 1: Base vs. All Constraints** The "Base" configuration represents a skeletal ruleset with minimal connectivity conditions. When switching to "All Constraints" (where complex multi-axis matching rules are enabled), execution times scale up drastically. The propagation wave runs much deeper per cycle because a single collapse strips away a larger percentage of valid states from neighboring cells, forcing the stack to process extensive cascading changes across the map.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d07e4728-c1b4-4aeb-9109-ac21ceecec5f" alt="WFC Chart" width="70%" />
+  <img src="https://github.com/user-attachments/assets/b1301659-cfcf-40b0-9bed-d24614c5232c" alt="WFC Chart" width="70%" />
 </p>
 
-* **Graph 2: Base vs. Weighted vs. All Constraints** Introducing "Weighted" selection means adding Shannon Entropy calculations and frequency-biased picking to the observation phase. While adding weights increases the mathematical operations required per observation step, the benchmarks show it often results in a cleaner, more predictable generation path than raw random selection. It sits comfortably between the light Base configuration and the highly intense All Constraints model.
+* **Graph 2: Base vs. Weighted vs. All Constraints**: In the "Normal" baseline configuration, tiles share uniform weights, meaning the observation phase simply selects cells with the lowest remaining raw tile count. Introducing **"Weighted" selection** activates unique tile frequencies, requiring the system to compute the full Shannon Entropy equation during the observation phase. While running these floating-point logarithmic calculations increases the mathematical overhead per step, it creates a more organic, biased distribution of tiles.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e08ce7dd-e083-4a67-8bfd-a959d65c5246" alt="WFC Chart" width="70%" />
+  <img src="https://github.com/user-attachments/assets/e42cfe16-b1b7-45c6-aa5a-210fdda2acd5" alt="WFC Chart" width="70%" />
 </p>
 
 * **Graph 3: Base vs. Negative Constraints vs. All Constraints** "Negative Constraints" explicitly define what tiles *cannot* sit next to each other rather than what *must* connect. Processing negative constraints requires checking against an exclusion matrix. The bar graphs indicate that negative constraint checking introduces a unique footprint: it skips the complex matching overhead of positive pairs but can cause longer propagation runtimes because exclusions create wide, unpredictable ripples across the grid.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/02559dbe-7f35-4ee0-98dc-41d193ad818e" alt="WFC Chart" width="70%" />
+  <img src="https://github.com/user-attachments/assets/915fe376-bebe-443c-82b8-e55e359d71c5" alt="WFC Chart" width="70%" />
 </p>
 
 #### 2. Scale-Based Runtime Acceleration (Line Graphs)
@@ -100,7 +100,11 @@ To see how these configuration settings scale with environment volume, percentag
 
 * **The Scaling Curve**: As the absolute number of grid cells scales up, the execution time scales *superlinearly*. This is caused by the compounding nature of the propagation stack.
 
-<img src="https://github.com/user-attachments/assets/27af7601-20d5-49f2-b462-517deeab710f" width="32%" /> <img src="https://github.com/user-attachments/assets/0d7beaeb-67c8-407e-9ecf-68a9c010ebef" width="32%" /> <img src="https://github.com/user-attachments/assets/365b2784-3a01-45b8-ac7a-a1ef004346ff" width="32%" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c3ff6301-2e6a-4eac-83fc-f4fc3b9cb4dd" alt="WFC Chart" width="70%" />
+</p>
+
+<!--<img src="https://github.com/user-attachments/assets/27af7601-20d5-49f2-b462-517deeab710f" width="32%" /> <img src="https://github.com/user-attachments/assets/0d7beaeb-67c8-407e-9ecf-68a9c010ebef" width="32%" /> <img src="https://github.com/user-attachments/assets/365b2784-3a01-45b8-ac7a-a1ef004346ff" width="32%" />-->
 
 * **The Negative Constraint Bottleneck**: The line charts reveal that the most severe performance penalty does not come from scaling up to "All" constraints, but explicitly from the introduction of **Negative Constraints**. At a modest 5,120 cells, adding negative constraints causes a manageable 154.89% increase in generation time compared to the base baseline. However, as the grid scales up, this tracking logic encounters a massive scaling wall.
 * **Algorithmic Cost of Exclusions**: This dramatic spike happens because of how the propagation pipeline handles exclusions on massive fields. While positive rules quickly narrow down choices, negative constraints force the system to iterate through every single neighbor cell and systematically evaluate what *cannot* exist. As the web of connections grows wider over 50,000 cells, processing these exclusion checks across the localized stack turns into a massive computational bottleneck, making the algorithm incredibly heavy before it even reaches the final "All Constraints" tier.
@@ -154,7 +158,7 @@ The resulting line graph charts the percentage runtime variance between these tw
 ---
 
 ## 6. Conclusion
-This research project successfully highlights the core mechanics and performance traits of the Wave Function Collapse algorithm within Unity. By optimizing the architecture with a stack-based propagation model, the system handles localized constraints cleanly and generates cohesive layouts.
+This research project successfully highlights the core mechanics and performance traits of the Wave Function Collapse algorithm. By optimizing the system architecture with a stack-based propagation model and low-overhead bitset tracking, the engine handles localized constraints cleanly and generates cohesive procedural layouts.
 
 The performance data collected reveals that WFC runtimes are dictated by much more than just the raw number of cells. Constraint configuration styles and spatial dimensions play an enormous role in how generation waves travel through the system. Opting for a clean slate approach on contradiction (hard resetting) keeps the architecture straightforward and lightweight, but it introduces a distinct scaling bottleneck when dealing with massive grids or strict rulesets. To scale this implementation up for massive worlds, future work should explore localized chunk-based generation or multi-threaded propagation pipelines to keep execution times fast and predictable.
 
@@ -164,4 +168,4 @@ The performance data collected reveals that WFC runtimes are dictated by much mo
 * **Original WFC Repository**: [Maxim Gumin's WFC](https://github.com/mxgmn/WaveFunctionCollapse)
 * **Technical Explanation**: [Robert Heaton - The Wavefunction Collapse Algorithm explained](https://robertheaton.com/2018/12/17/wavefunction-collapse-algorithm/)
 * **Paper about implementation**: [Tristan Wauthier WFC paper](https://tristanwauthier.com/PDF/GW_2223_Tristan_Wauthier_EN_Paper.pdf)
-* **Entropy**: [Shanon Entropy](https://en.wikipedia.org/wiki/Entropy_(information_theory))
+* **Entropy**: [Shannon Entropy](https://en.wikipedia.org/wiki/Entropy_(information_theory))
